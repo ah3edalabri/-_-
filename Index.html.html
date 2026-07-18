@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>توقع المباراة | إسبانيا × الأرجنتين</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --spain-red:#AA151B;
+    --spain-gold:#F1BF00;
+    --arg-blue:#6CACE4;
+    --arg-blue-dark:#3B7FBF;
+    --night:#0B2A22;
+    --night-2:#0F3C30;
+    --cream:#F7F1E3;
+    --ink:#0B2A22;
+    --muted:#5C6B63;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Tajawal',sans-serif;
+    background:var(--night);
+    color:var(--cream);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 90px);
+    pointer-events:none;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px;position:relative;}
+
+  .scoreboard{
+    background:var(--night-2);
+    border:1px solid rgba(247,241,227,0.15);
+    border-radius:10px;
+    padding:24px 18px;
+    text-align:center;
+    margin-bottom:28px;
+  }
+  .tag{
+    font-size:12px;
+    letter-spacing:3px;
+    color:var(--spain-gold);
+    margin:0 0 10px;
+  }
+  .matchup{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+  }
+  .team{
+    flex:1;
+    text-align:center;
+  }
+  .team-name{
+    font-family:'Anton',sans-serif;
+    font-size:clamp(22px,6vw,34px);
+    letter-spacing:1px;
+    margin:8px 0 4px;
+  }
+  .team.spain .team-name{color:var(--spain-red);text-shadow:0 0 0 var(--spain-gold);}
+  .team.arg .team-name{color:var(--arg-blue);}
+  .stripes{
+    width:64px;height:40px;margin:0 auto;border-radius:4px;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .stripes div{flex:1;}
+  .spain-stripes div:nth-child(1){background:var(--spain-red);}
+  .spain-stripes div:nth-child(2){background:var(--spain-gold);}
+  .spain-stripes div:nth-child(3){background:var(--spain-red);}
+  .arg-stripes div:nth-child(1){background:var(--arg-blue);}
+  .arg-stripes div:nth-child(2){background:#fff;}
+  .arg-stripes div:nth-child(3){background:var(--arg-blue);}
+  .vs{
+    font-family:'Anton',sans-serif;
+    font-size:26px;
+    color:var(--cream);
+    opacity:0.6;
+  }
+  .round-label{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:14px;
+  }
+
+  .card{
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:10px;
+    padding:22px;
+    margin-bottom:20px;
+  }
+  .card h2{
+    font-size:16px;
+    font-weight:700;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h2::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--spain-red);
+    display:inline-block;
+  }
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:500;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+  input[type="text"]{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #d8d0ba;
+    border-radius:8px;
+    font-family:'Tajawal',sans-serif;
+    font-size:15px;
+    background:#fff;
+    color:var(--ink);
+  }
+  input[type="text"]:focus{
+    outline:none;
+    border-color:var(--spain-red);
+  }
+  .score-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-top:6px;
+  }
+  .score-box{
+    text-align:center;
+  }
+  .score-box .lbl{
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .score-box.sp .lbl{color:var(--spain-red);}
+  .score-box.ar .lbl{color:var(--arg-blue-dark);}
+  .stepper{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .stepper button{
+    width:34px;height:34px;
+    border-radius:8px;
+    border:1px solid #d8d0ba;
+    background:#fff;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .stepper button:active{transform:scale(0.94);}
+  .stepper .num{
+    font-family:'Anton',sans-serif;
+    font-size:28px;
+    width:36px;
+    text-align:center;
+  }
+  .score-sep{
+    font-family:'Anton',sans-serif;
+    font-size:28px;
+    color:var(--muted);
+    margin-top:22px;
+  }
+
+  .submit-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:var(--spain-red);
+    color:#fff;
+    font-family:'Tajawal',sans-serif;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:6px;
+  }
+  .submit-btn:active{transform:scale(0.98);}
+
+  .ticket{
+    display:none;
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:10px;
+    position:relative;
+    padding:24px 22px;
+    text-align:center;
+    border:2px dashed var(--spain-red);
+  }
+  .ticket.show{display:block;animation:pop .35s ease;}
+  @keyframes pop{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .ticket .eyebrow{
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  .ticket .name{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .ticket .final-score{
+    font-family:'Anton',sans-serif;
+    font-size:48px;
+    letter-spacing:2px;
+  }
+  .ticket .final-score .sp{color:var(--spain-red);}
+  .ticket .final-score .ar{color:var(--arg-blue-dark);}
+  .ticket .verdict{
+    margin-top:12px;
+    font-size:14px;
+    color:var(--muted);
+  }
+  .ticket .stub{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px dashed #c8bfa2;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:1px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="scoreboard">
+    <p class="tag">توقع المباراة</p>
+    <div class="matchup">
+      <div class="team spain">
+        <div class="stripes spain-stripes"><div></div><div></div><div></div></div>
+        <p class="team-name">إسبانيا</p>
+      </div>
+      <div class="vs">VS</div>
+      <div class="team arg">
+        <div class="stripes arg-stripes"><div></div><div></div><div></div></div>
+        <p class="team-name">الأرجنتين</p>
+      </div>
+    </div>
+    <p class="round-label">أدخل اسمك وتوقعك للنتيجة النهائية</p>
+  </div>
+
+  <div class="card">
+    <h2>اسمك</h2>
+    <label for="pname">الاسم</label>
+    <input type="text" id="pname" placeholder="اكتب اسمك هنا">
+  </div>
+
+  <div class="card">
+    <h2>توقع النتيجة</h2>
+    <div class="score-row">
+      <div class="score-box sp">
+        <div class="lbl">إسبانيا</div>
+        <div class="stepper">
+          <button onclick="changeScore('sp',1)">+</button>
+          <div class="num" id="sp-num">0</div>
+          <button onclick="changeScore('sp',-1)">−</button>
+        </div>
+      </div>
+      <div class="score-sep">:</div>
+      <div class="score-box ar">
+        <div class="lbl">الأرجنتين</div>
+        <div class="stepper">
+          <button onclick="changeScore('ar',1)">+</button>
+          <div class="num" id="ar-num">0</div>
+          <button onclick="changeScore('ar',-1)">−</button>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="submitPrediction()">تأكيد التوقع</button>
+  </div>
+
+  <div class="ticket" id="ticket">
+    <p class="eyebrow">تذكرة التوقع</p>
+    <p class="name" id="ticket-name"></p>
+    <div class="final-score">
+      <span class="sp" id="ticket-sp">0</span>
+      <span> - </span>
+      <span class="ar" id="ticket-ar">0</span>
+    </div>
+    <p class="verdict" id="ticket-verdict"></p>
+    <p class="stub">إسبانيا × الأرجنتين — توقع غير رسمي</p>
+  </div>
+
+</div>
+
+<script>
+let scores = {sp:0, ar:0};
+function changeScore(team, delta){
+  scores[team] = Math.max(0, Math.min(9, scores[team] + delta));
+  document.getElementById(team+'-num').textContent = scores[team];
+}
+function submitPrediction(){
+  const name = document.getElementById('pname').value.trim() || 'مشجع مجهول';
+  document.getElementById('ticket-name').textContent = name;
+  document.getElementById('ticket-sp').textContent = scores.sp;
+  document.getElementById('ticket-ar').textContent = scores.ar;
+  let verdict;
+  if(scores.sp > scores.ar) verdict = 'توقعك: فوز إسبانيا';
+  else if(scores.ar > scores.sp) verdict = 'توقعك: فوز الأرجنتين';
+  else verdict = 'توقعك: تعادل';
+  document.getElementById('ticket-verdict').textContent = verdict;
+  const ticket = document.getElementById('ticket');
+  ticket.classList.add('show');
+  ticket.scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+</body>
+</html>
